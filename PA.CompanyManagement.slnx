@@ -1,0 +1,41 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="PA.CompanyManagement.Core/PA.CompanyManagement.Core.csproj" />
+  </Folder>
+  <Folder Name="/src/Gateways/">
+    <Project Path="PA.CompanyManagement.Gateway/PA.CompanyManagement.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/AccountingService/">
+    <Project Path="PA.CompanyManagement.AccountingService.Api.Grpc/PA.CompanyManagement.AccountingService.Api.Grpc.csproj" />
+    <Project Path="PA.CompanyManagement.AccountingService.Api.Rest/PA.CompanyManagement.AccountingService.Api.Rest.csproj" />
+    <Project Path="PA.CompanyManagement.AccountingService.Application/PA.CompanyManagement.AccountingService.Application.csproj" />
+    <Project Path="PA.CompanyManagement.AccountingService.Domain/PA.CompanyManagement.AccountingService.Domain.csproj" />
+    <Project Path="PA.CompanyManagement.AccountingService.Infrastructure/PA.CompanyManagement.AccountingService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/EmployeeService/">
+    <Project Path="PA.CompanyManagement.EmployeeService.Api.Grpc/PA.CompanyManagement.EmployeeService.Api.Grpc.csproj" />
+    <Project Path="PA.CompanyManagement.EmployeeService.Api.Rest/PA.CompanyManagement.EmployeeService.Api.Rest.csproj" />
+    <Project Path="PA.CompanyManagement.EmployeeService.Application/PA.CompanyManagement.EmployeeService.Application.csproj" />
+    <Project Path="PA.CompanyManagement.EmployeeService.Domain/PA.CompanyManagement.EmployeeService.Domain.csproj" />
+    <Project Path="PA.CompanyManagement.EmployeeService.Infrastructure/PA.CompanyManagement.EmployeeService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/NotificationService/">
+    <Project Path="PA.CompanyManagement.NotificationService.Api.Grpc/PA.CompanyManagement.NotificationService.Api.Grpc.csproj" />
+    <Project Path="PA.CompanyManagement.NotificationService.Api.Rest/PA.CompanyManagement.NotificationService.Api.Rest.csproj" />
+    <Project Path="PA.CompanyManagement.NotificationService.Application/PA.CompanyManagement.NotificationService.Application.csproj" />
+    <Project Path="PA.CompanyManagement.NotificationService.Domain/PA.CompanyManagement.NotificationService.Domain.csproj" />
+    <Project Path="PA.CompanyManagement.NotificationService.Infrastructure/PA.CompanyManagement.NotificationService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/UserService/">
+    <Project Path="PA.CompanyManagement.UserService.Api.Grpc/PA.CompanyManagement.UserService.Api.Grpc.csproj" />
+    <Project Path="PA.CompanyManagement.UserService.Api.Rest/PA.CompanyManagement.UserService.Api.Rest.csproj" />
+    <Project Path="PA.CompanyManagement.UserService.Application/PA.CompanyManagement.UserService.Application.csproj" />
+    <Project Path="PA.CompanyManagement.UserService.Domain/PA.CompanyManagement.UserService.Domain.csproj" />
+    <Project Path="PA.CompanyManagement.UserService.Infrastructure/PA.CompanyManagement.UserService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/UIs/">
+    <Project Path="PA.CompanyManagement.WebUI/PA.CompanyManagement.WebUI.csproj" />
+  </Folder>
+</Solution>
