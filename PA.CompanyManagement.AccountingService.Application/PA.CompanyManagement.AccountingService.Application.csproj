@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PA.CompanyManagement.AccountingService.Domain\PA.CompanyManagement.AccountingService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
