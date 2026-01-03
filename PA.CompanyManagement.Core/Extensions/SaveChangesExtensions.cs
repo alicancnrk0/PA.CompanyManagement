@@ -22,7 +22,6 @@ namespace PA.CompanyManagement.Core.Extensions
                 {
                     case EntityState.Modified:
                         entity.LastModifiedAt = DateTimeOffset.UtcNow;
-                        entity.LastModifiedBy = currentUser.Id;
                         if(entity.IsDeleted == true)
                         {
                             entity.DeletedBy = currentUser.Id;
