@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Contexts\" />
-    <Folder Include="Repostiries\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

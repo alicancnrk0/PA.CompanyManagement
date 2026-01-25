@@ -9,7 +9,7 @@
   <Folder Name="/src/Services/" />
   <Folder Name="/src/Services/AccountingService/">
     <Project Path="PA.CompanyManagement.AccountingService.Api.Grpc/PA.CompanyManagement.AccountingService.Api.Grpc.csproj" />
-    <Project Path="PA.CompanyManagement.AccountingService.Api.Rest/PA.CompanyManagement.AccountingService.Api.Rest.csproj" />
+    <Project Path="PA.CompanyManagement.AccountingService.Api.Rest/PA.CompanyManagement.AccountingService.Api.Rest.csproj" Id="de3ab534-8dab-49ef-8b28-484d89dd6d1b" />
     <Project Path="PA.CompanyManagement.AccountingService.Application/PA.CompanyManagement.AccountingService.Application.csproj" />
     <Project Path="PA.CompanyManagement.AccountingService.Domain/PA.CompanyManagement.AccountingService.Domain.csproj" />
     <Project Path="PA.CompanyManagement.AccountingService.Infrastructure/PA.CompanyManagement.AccountingService.Infrastructure.csproj" />

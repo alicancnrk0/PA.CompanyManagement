@@ -12,7 +12,6 @@ namespace PA.CompanyManagement.Core.Utils
             return ex.InnerException switch
             {
                 Microsoft.Data.SqlClient.SqlException sql when sql.Number is 2601 or 2627 => true, // SQL Server unique
-
                 _ => false
             };
         }

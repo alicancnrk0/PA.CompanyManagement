@@ -20,17 +20,16 @@ namespace PA.CompanyManagement.AccountingService.Application.DTOs.Responses.Meta
 
     public class DetailedExpenseResponse : Expense
     {
-        public ExpenseTypeResponses? ExpenseType { get; set; }
+        public ExpenseTypeResponse? ExpenseType { get; set; }
     }
 
     public class MinimalExpenseResponse
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set;}
         public string? Title { get; set; }
         public DateTimeOffset? ExpenseDate { get; set; }
         public bool Completed { get; set; }
         public decimal? Amount { get; set; }
         public string? TypeName { get; set; }
     }
-
 }

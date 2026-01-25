@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.Extensions.Configuration;
 using PA.CompanyManagement.AccountingService.Domain.Entities.Metas;
 using PA.CompanyManagement.AccountingService.Domain.Entities.Types;
@@ -10,32 +11,30 @@ using System.Text;
 
 namespace PA.CompanyManagement.AccountingService.Infrastructure.Contexts
 {
-    public class AccountingDbContext : DbContext
+    public class AccountingDBContext : DbContext
     {
         private readonly IConfiguration? _conf;
         private readonly ICurrentUser? _currentUser;
 
-        public AccountingDbContext() { }
+        public AccountingDBContext() { }
+        public AccountingDBContext(DbContextOptions<AccountingDBContext> options) : base(options) { }
 
-        public AccountingDbContext(DbContextOptions<AccountingDbContext> options): base(options) { }
+        public AccountingDBContext(IConfiguration conf) => _conf = conf;
+        public AccountingDBContext(DbContextOptions<AccountingDBContext> options, IConfiguration conf)
+            : base(options) => _conf = conf;
 
-        public AccountingDbContext(IConfiguration conf) => _conf = conf;
+        public AccountingDBContext(ICurrentUser currentUser) => _currentUser = currentUser;
+        public AccountingDBContext(DbContextOptions<AccountingDBContext> options, ICurrentUser currentUser)
+            : base(options) => _currentUser = currentUser;
 
-        public AccountingDbContext(DbContextOptions<AccountingDbContext> options, IConfiguration conf) : base(options) => _conf = conf;
-
-        public AccountingDbContext(ICurrentUser currentUser) => _currentUser = currentUser;
-
-        public AccountingDbContext(DbContextOptions<AccountingDbContext> options, ICurrentUser currentUser) : base(options) => _currentUser = currentUser;
-
-        public AccountingDbContext(IConfiguration conf, ICurrentUser currentUser) 
+        public AccountingDBContext(IConfiguration conf, ICurrentUser currentUser)
         {
             _conf = conf;
             _currentUser = currentUser;
         }
-
-        public AccountingDbContext(DbContextOptions<AccountingDbContext> options, 
+        public AccountingDBContext(DbContextOptions<AccountingDBContext> options,
             IConfiguration conf,
-            ICurrentUser currentUser) : base(options) 
+            ICurrentUser currentUser) : base(options)
         {
             _conf = conf;
             _currentUser = currentUser;
@@ -48,16 +47,22 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Contexts
 
         public override int SaveChanges()
         {
-            if(_currentUser != null)
+            if (_currentUser != null)
                 this.OnBeforeSaving(_currentUser);
-            return base.SaveChanges();
+            else
+                this.OnBeforeSaving();
+
+                return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             if (_currentUser != null)
                 this.OnBeforeSaving(_currentUser);
-            return base.SaveChangesAsync(cancellationToken);
+            else
+                this.OnBeforeSaving();
+
+                return base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -66,12 +71,13 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Contexts
                 optionsBuilder.Configure(_conf);
 
 #if DEBUG
-            if(!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=127.0.0.1;Database=AccountingDb;User Id=sa;Password=11;Encrypt=False");
+            if (!optionsBuilder.IsConfigured)
+                optionsBuilder.UseSqlServer("Server=127.0.0.1;User Id=sa;Password=11;Encrypt=False;Database=AccountingDb;");
 #endif
 
             base.OnConfiguring(optionsBuilder);
         }
 
     }
+
 }

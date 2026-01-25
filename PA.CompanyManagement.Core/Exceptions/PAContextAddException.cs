@@ -12,5 +12,4 @@ namespace PA.CompanyManagement.Core.Exceptions
 
         public PAContextAddException(string? message, Exception? innerException) : base(message, innerException) { }
     }
-
 }

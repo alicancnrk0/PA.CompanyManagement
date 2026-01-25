@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PA.CompanyManagement.AccountingService.Domain.Entities.Types
 {
-    [Table("ExpenseType", Schema ="type")]
+    [Table("ExpenseTypes", Schema = "type")]
     public class ExpenseType : BaseEntity
     {
         public string? Name { get; set; }

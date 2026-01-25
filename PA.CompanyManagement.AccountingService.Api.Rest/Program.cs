@@ -1,3 +1,9 @@
+using PA.CompanyManagement.AccountingService.Application.Repositories.Metas;
+using PA.CompanyManagement.AccountingService.Application.Repositories.Types;
+using PA.CompanyManagement.AccountingService.Infrastructure.Contexts;
+using PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Metas;
+using PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Types;
+using static PA.CompanyManagement.AccountingService.Infrastructure.DependencyInjection;
 
 namespace PA.CompanyManagement.AccountingService.Api.Rest
 {
@@ -12,6 +18,14 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddAccountingContext(builder.Configuration);
+
+            builder.Services.AddScoped<IExpenseTypeRepository, ExpenseTypeRepository>();
+            builder.Services.AddScoped<IIncomeTypeRepository, IncomeTypeRepository>();
+
+            builder.Services.AddScoped<IExpensRepository, ExpenseRepository>();
+            builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 
             var app = builder.Build();
 

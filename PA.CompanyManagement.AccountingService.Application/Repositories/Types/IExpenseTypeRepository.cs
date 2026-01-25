@@ -9,15 +9,16 @@ namespace PA.CompanyManagement.AccountingService.Application.Repositories.Types
 {
     public interface IExpenseTypeRepository
     {
-        Task<List<ExpenseTypeResponses>> GetAllAsync();
+        Task<List<ExpenseTypeResponse>> GetAllAsync();
 
-        Task<ExpenseTypeResponses> GetAsync(Guid id);
-        Task<DetailedExpenseTypeResponse> GetDetailedAsync(Guid id);
+        Task<ExpenseTypeResponse?> GetAsync(Guid id);
+        Task<DetailedExpeseTypeResponse?> GetDetailedAsync(Guid id);
 
-        Task<ExpenseTypeResponses> CreateAsync(ExpenseTypeCreateRequest request);
+        Task<ExpenseTypeResponse> CreateAsync(ExpenseTypeCreateRequest request);
 
         Task UpdateAsync(ExpenseTypeUpdateRequest request);
-        Task DeleteAsync(Guid id);
-    }
 
+        Task DeleteAsync(Guid id);
+
+    }
 }

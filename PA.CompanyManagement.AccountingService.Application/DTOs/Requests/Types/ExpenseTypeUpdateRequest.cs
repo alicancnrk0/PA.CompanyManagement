@@ -9,6 +9,6 @@ namespace PA.CompanyManagement.AccountingService.Application.DTOs.Requests.Types
         public required Guid ModifiedBy { get; set; }
         public required Guid Id { get; set; }
         public string? Name { get; set; }
-        public decimal? TaxRate { get; set; }   
+        public decimal? TaxRate { get; set; }
     }
 }

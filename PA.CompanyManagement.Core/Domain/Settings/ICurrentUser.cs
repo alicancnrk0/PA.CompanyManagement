@@ -10,7 +10,5 @@ namespace PA.CompanyManagement.Core.Domain.Settings
         string Email { get; }
         string FullName { get; }
         bool IsAuthenticated { get; }
-
     }
-
 }

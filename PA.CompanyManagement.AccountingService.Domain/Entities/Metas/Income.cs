@@ -16,6 +16,5 @@ namespace PA.CompanyManagement.AccountingService.Domain.Entities.Metas
         public decimal? Amount { get; set; }
 
         public Guid? TypeId { get; set; }
-
     }
 }

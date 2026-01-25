@@ -14,13 +14,14 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure
         {
             services.AddHttpContextAccessor();
 
-            services.AddDbContext<AccountingDbContext>(options =>
+            services.AddDbContext<AccountingDBContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
                     conf =>
                     {
-                        conf.MigrationsAssembly(typeof(AccountingDbContext).Assembly.FullName);
+                        conf.MigrationsAssembly(typeof(AccountingDBContext).Assembly.FullName);
                     }));
+
             return services;
         }
     }

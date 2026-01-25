@@ -6,13 +6,13 @@ using System.Text;
 
 namespace PA.CompanyManagement.Core.Extensions
 {
-    public static class ContextConfigurationsExtrensions
+    public static class ContextConfigurationsExtensions
     {
-     public static void Configure(this DbContextOptionsBuilder builder, IConfiguration conf)
+        public static void Configure(this DbContextOptionsBuilder builder, 
+            IConfiguration conf)
         {
             if (!builder.IsConfigured)
                 builder.UseSqlServer(conf.GetConnectionString("DefaultConnection"));
         }
-        
     }
 }

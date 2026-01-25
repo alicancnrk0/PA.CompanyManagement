@@ -11,5 +11,6 @@ namespace PA.CompanyManagement.Core.Exceptions
         public PAContextSaveException(string? message) : base(message) { }
 
         public PAContextSaveException(string? message, Exception? innerException) : base(message, innerException) { }
+
     }
 }
