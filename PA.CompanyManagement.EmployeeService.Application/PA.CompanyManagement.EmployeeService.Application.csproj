@@ -11,4 +11,9 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PA.CompanyManagement.Core\PA.CompanyManagement.Core.csproj" />
+    <ProjectReference Include="..\PA.CompanyManagement.EmployeeService.Domain\PA.CompanyManagement.EmployeeService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

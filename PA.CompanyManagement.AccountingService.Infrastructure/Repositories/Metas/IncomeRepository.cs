@@ -92,7 +92,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Completed = x.Completed,
                         IncomeDate = x.IncomeDate,
                         Title = x.Title,
-                        TypeName = _context.IncomeTypes.Find(x.TypeId).Name
+                        TypeName = _context.IncomeTypes.Where(y => y.Id == x.TypeId).Select(y => y.Name).FirstOrDefault()
                     })
                     .ToListAsync();
             }
@@ -117,7 +117,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Completed = x.Completed,
                         IncomeDate = x.IncomeDate,
                         Title = x.Title,
-                        TypeName = _context.IncomeTypes.Find(x.TypeId).Name
+                        TypeName = _context.IncomeTypes.Where(y => y.Id == x.TypeId).Select(y => y.Name).FirstOrDefault()
                     })
                     .ToListAsync();
             }
@@ -143,8 +143,8 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Description = x.Description,
                         IncomeDate = x.IncomeDate,
                         Title = x.Title,
-                        TaxRate = _context.IncomeTypes.Find(x.TypeId).TaxRate,
-                        TypeName = _context.IncomeTypes.Find(x.TypeId).Name
+                        TaxRate = _context.IncomeTypes.Where(y=> y.Id == x.TypeId).Select(y=> y.TaxRate).FirstOrDefault(),
+                        TypeName = _context.IncomeTypes.Where(y => y.Id == x.TypeId).Select(y => y.Name).FirstOrDefault(),
                     })
                     .FirstOrDefaultAsync();
             }

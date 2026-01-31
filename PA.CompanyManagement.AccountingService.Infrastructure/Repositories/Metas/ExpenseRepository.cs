@@ -115,7 +115,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
         {
             try
             {
-                return await _context
+                var response = await _context
                     .Expenses
                     .Select(x => new MinimalExpenseResponse
                     {
@@ -124,10 +124,13 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         ExpenseDate = x.ExpenseDate,
                         Id = x.Id,
                         Title = x.Title,
+                        TypeName = x.TypeId.ToString()
                         //TypeName = _context.ExpenseTypes.Find(x.TypeId).Name ?? string.Empty
-                        TypeName = GetTypeName(x.TypeId)
+                        //TypeName = GetTypeName(x.TypeId)
                     })
                     .ToListAsync();
+
+                return GetTypeName(response);
             }
             catch (Exception ex)
             {
@@ -135,20 +138,28 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
             }
         }
 
-        private string GetTypeName(Guid? id)
+        private List<MinimalExpenseResponse> GetTypeName(List<MinimalExpenseResponse> model)
         {
-            if (id == Guid.Empty)
-                return string.Empty;
-            var item = _context.ExpenseTypes.Find(id);
-            if (item != null)
-                return item.Name ?? string.Empty;
-            return string.Empty;
+            //if (id == Guid.Empty)
+            //    return string.Empty;
+            //var item = _context.ExpenseTypes.Find(id);
+            //if (item != null)
+            //    return item.Name ?? string.Empty;
+            //return string.Empty;
+
+            foreach(var item in model)
+            {
+                item.TypeName = _context.ExpenseTypes.Find(Guid.Parse(item.TypeName))?.Name ?? "";
+                
+            }
+            return model;
         }
 
         public async Task<List<MinimalExpenseResponse>> GetAllAsync(Guid expenseTypeId)
         {
             try
             {
+                string typeName = _context.ExpenseTypes.Find(expenseTypeId).Name ?? string.Empty;
                 return await _context
                     .Expenses
                     .Where(x => x.TypeId == expenseTypeId)
@@ -159,7 +170,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         ExpenseDate = x.ExpenseDate,
                         Id = x.Id,
                         Title = x.Title,
-                        TypeName = _context.ExpenseTypes.Find(x.TypeId).Name ?? string.Empty
+                        TypeName = typeName
                     })
                     .ToListAsync();
             }
@@ -173,7 +184,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
         {
             try
             {
-                return await _context
+                var response = await _context
                     .Expenses
                     .Where(x => x.Id == id)
                     .Select(x => new ExpenseResponse
@@ -184,10 +195,14 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Description = x.Description,
                         ExpenseDate = x.ExpenseDate,
                         Title = x.Title,
-                        TaxRate = _context.ExpenseTypes.Find(x.TypeId).TaxRate,
-                        TypeName = _context.ExpenseTypes.Find(x.TypeId).Name
+                        TypeName = x.TypeId.ToString()
                     })
                     .FirstOrDefaultAsync();
+                var type = _context.ExpenseTypes.Find(Guid.Parse(response.TypeName));
+                response.TypeName = type?.Name ?? "";
+                response.TaxRate = type?.TaxRate ?? null;
+
+                return response;
             }
             catch (Exception ex)
             {
