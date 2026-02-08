@@ -10,19 +10,16 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
     [ApiController]
     public class ExpenseController : ControllerBase
     {
-        private IExpensRepository _repository;
-
+        private readonly IExpensRepository _repository;
 
         public ExpenseController(IExpensRepository repository)
         {
             _repository = repository;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-
             try
             {
                 var response = await _repository.GetAllAsync();
@@ -36,26 +33,24 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (PAContextUncatchedException ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                   statusCode: StatusCodes.Status500InternalServerError,
+                   title: "Server Error!",
+                   detail: ex.Message);
             }
-
         }
-
 
         [HttpGet("type/{typeId:guid}")]
         public async Task<IActionResult> GetAll(Guid typeId)
@@ -73,24 +68,23 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (PAContextUncatchedException ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                   statusCode: StatusCodes.Status500InternalServerError,
+                   title: "Server Error!",
+                   detail: ex.Message);
             }
-
         }
 
         [HttpGet("{id:guid}")]
@@ -98,82 +92,76 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
         {
             try
             {
-                var reponse = await _repository.GetAsync(id);
-                
-                if(reponse == null)
+                var response = await _repository.GetAsync(id);
+
+                if (response is null)
                     return NotFound();
 
-                return Ok(reponse);
+                return Ok(response);
             }
             catch (PAContextQueryException ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                    title: "Server Error!",
+                     detail: ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
         }
-
 
         [HttpGet("detailed/{id:guid}")]
         public async Task<IActionResult> GetDetailed(Guid id)
         {
             try
             {
-                var reponse = await _repository.GetDetailedAsync(id);
+                var response = await _repository.GetDetailedAsync(id);
 
-                if (reponse == null)
+                if (response is null)
                     return NotFound();
 
-                return Ok(reponse);
+                return Ok(response);
             }
             catch (PAContextQueryException ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                    title: "Server Error!",
+                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Post(ExpenseCreateRequest request)
         {
             try
             {
-                if(request is null)
+                if (request is null)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Request is null");
+                        title: "Model is Null!");
 
                 if (!ModelState.IsValid)
                     return ValidationProblem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Model Invalid",
+                        title: "Model Invalid!",
                         modelStateDictionary: ModelState);
 
                 var response = await _repository.CreateAsync(request);
 
-                return CreatedAtAction(
-                    actionName: nameof(Get),
-                    routeValues: new { id = response.Id },
-                    value: response);
-
+                return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
             }
             catch(Exception ex) when (
                 ex is PAContextSaveException || 
@@ -181,24 +169,21 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                   statusCode: StatusCodes.Status500InternalServerError,
+                   title: "Server Error!",
+                   detail: ex.Message);
             }
-
         }
-
 
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Put(Guid id, ExpenseUpdateRequest request)
         {
-
             try
             {
                 if (request is null)
@@ -209,37 +194,35 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
                 if (request.Id != id)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Hatalı ID");
+                        title: "Hatalı id!");
 
                 if (!ModelState.IsValid)
                     return ValidationProblem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Model Geçersiz",
+                        title: "Model geçerli değil!",
                         modelStateDictionary: ModelState);
 
                 await _repository.UpdateAsync(request);
 
                 return NoContent();
-
             }
             catch (Exception ex) when (
-                ex is PAContextSaveException ||
-                ex is PAContextUncatchedException)
+              ex is PAContextSaveException ||
+              ex is PAContextUncatchedException)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                   statusCode: StatusCodes.Status500InternalServerError,
+                   title: "Server Error!",
+                   detail: ex.Message);
             }
         }
-
 
         [HttpPatch("{id:guid}")]
         public async Task<IActionResult> Patch(Guid id, ExpensePatchRequest request)
@@ -254,34 +237,33 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
                 if (request.Id != id)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Hatalı ID");
+                        title: "Hatalı id!");
 
                 if (!ModelState.IsValid)
                     return ValidationProblem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Model Geçersiz",
+                        title: "Model geçerli değil!",
                         modelStateDictionary: ModelState);
 
                 await _repository.PatchAsync(request);
 
                 return NoContent();
-
             }
             catch (Exception ex) when (
-                ex is PAContextSaveException ||
-                ex is PAContextUncatchedException)
+              ex is PAContextSaveException ||
+              ex is PAContextUncatchedException)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message);
+                   statusCode: StatusCodes.Status500InternalServerError,
+                   title: "Server Error!",
+                   detail: ex.Message);
             }
         }
 
@@ -297,25 +279,16 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Metas
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
-
-
             }
-
         }
-
-
-
     }
-
-
-
 }

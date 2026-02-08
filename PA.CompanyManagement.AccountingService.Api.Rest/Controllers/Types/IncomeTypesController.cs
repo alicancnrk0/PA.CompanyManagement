@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PA.CompanyManagement.AccountingService.Application.DTOs.Requests.Types;
+using PA.CompanyManagement.AccountingService.Application.DTOs.Responses.Types;
 using PA.CompanyManagement.AccountingService.Application.Repositories.Types;
 using PA.CompanyManagement.Core.Exceptions;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
@@ -20,14 +22,13 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
         }
 
         /// <summary>
-        /// Bütün Gider Türlerini getirir.
+        /// Bütün Gider Türlerini döner.
         /// </summary>
         /// <remarks>
-        /// Veritabanında bulunan bütün gider türlerini döner eğer veritabanında bir gider türü yoksa 204 ile boş bir cevap döner.
+        /// Veritabaınında bulunan bütün gider türlerini döner eğer veritabanında bir gider türü yoksa 204 ile boş bir cevap döner.
         /// </remarks>
-        /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType<string>(StatusCodes.Status200OK)]
+        [ProducesResponseType<List<IncomeTypeResponse>>(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
@@ -38,68 +39,66 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
                 var response = await _repository.GetAllAsync();
 
                 if (response.Count > 0)
-                    return Ok(JsonConvert.SerializeObject(response));
+                    //return Ok(JsonConvert.SerializeObject(response));
+                    return Ok(response);
 
                 return NoContent();
-
-            }
-            catch(Exception ex) when (ex is PAContextQueryException)
-            {
-                return Problem(
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message,
-                    instance: HttpContext.Request.Path);
-            }
-            catch(Exception ex)
-            {
-                return Problem(
-                   statusCode: StatusCodes.Status500InternalServerError,
-                   title: "Unhandled Server Error",
-                   detail: ex.Message,
-                   instance: HttpContext.Request.Path); 
-            }
-
-        }
-
-
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            try
-            {
-                if(id == Guid.Empty)
-                    return Problem(
-                        statusCode: StatusCodes.Status400BadRequest,
-                        title: "Id değeri boş olaamaz.");
-
-
-                var response = await _repository.GetAsync(id);
-
-                if (response is null)
-                    return Problem(
-                        statusCode: StatusCodes.Status400BadRequest,
-                        title: "Bu id değeri için veri bulunamadı!");
-                    //return NotFound();
-
-                return Ok(response);
-
             }
             catch (Exception ex) when (ex is PAContextQueryException)
             {
+                //return StatusCode(StatusCodes.Status500InternalServerError);
+
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message,
                     instance: HttpContext.Request.Path);
             }
             catch (Exception ex)
             {
                 return Problem(
-                   statusCode: StatusCodes.Status500InternalServerError,
-                   title: "Unhandled Server Error",
-                   detail: ex.Message,
-                   instance: HttpContext.Request.Path);
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Unhandled Server Error!",
+                    detail: ex.Message,
+                    instance: HttpContext.Request.Path);
+            }
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            try
+            {
+                if (id == Guid.Empty)
+                    return Problem(
+                        statusCode: StatusCodes.Status400BadRequest,
+                        title: "Id değeri boş olamaz!");
+
+                var response = await _repository.GetAsync(id);
+
+                if (response is null)
+                    //return NotFound();
+                    return Problem(
+                        statusCode: StatusCodes.Status404NotFound,
+                        title: "Bu id değeri için veri bulunamdı!");
+
+                return Ok(response);
+            }
+            catch (Exception ex) when (ex is PAContextQueryException)
+            {
+                return Problem(
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Server Error!",
+                    detail: ex.Message,
+                    instance: HttpContext.Request.Path);
+            }
+            catch (Exception ex)
+            {
+                return Problem(
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Unhandled Server Error!",
+                    detail: ex.Message,
+                    instance: HttpContext.Request.Path);
             }
         }
 
@@ -109,18 +108,17 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
         {
             try
             {
-                if(id == Guid.Empty)
+                if (id == Guid.Empty)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Id değeri boş olaamaz.");
+                        title: "Id değeri boş olamaz!");
 
                 var response = await _repository.GetDetailedAsync(id);
 
                 if (response is null)
                     return Problem(
-                        statusCode: StatusCodes.Status400BadRequest,
-                        title: "Id değeri için veri bulunamadı!");
-                        
+                        statusCode: StatusCodes.Status404NotFound,
+                        title: "Bu id değeri için veri bulunamdı!");
 
                 return Ok(response);
             }
@@ -128,21 +126,19 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message,
                     instance: HttpContext.Request.Path);
             }
             catch (Exception ex)
             {
                 return Problem(
-                   statusCode: StatusCodes.Status500InternalServerError,
-                   title: "Unhandled Server Error",
-                   detail: ex.Message,
-                   instance: HttpContext.Request.Path);
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Unhandled Server Error!",
+                    detail: ex.Message,
+                    instance: HttpContext.Request.Path);
             }
         }
-
-
 
         [HttpPost]
         public async Task<IActionResult> Post(IncomeTypeCreateRequest? request)
@@ -163,28 +159,26 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
                 var response = await _repository.CreateAsync(request);
 
                 return CreatedAtAction(
-                    actionName: nameof(Get),
-                    routeValues: new { id = response.Id },
-                    value: response);
+                    nameof(Get),
+                    new { id = response.Id },
+                     response);
 
             }
             catch (Exception ex) when (ex is PAContextAddException)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
+                    title: "Server Error!",
                     detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Unhandled Server Error",
+                    title: "Unhandled Server Error!",
                     detail: ex.Message);
             }
-
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, IncomeTypeUpdateRequest? request)
@@ -194,12 +188,12 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
                 if(id == Guid.Empty)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Geçersiz istek");
+                        title: "Geçersiz istek!");
 
-                if(request is null)
+                if (request is null)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "İstek geçersiz!");
+                        title: "Geçersiz istek!");
 
                 if (!ModelState.IsValid)
                     return ValidationProblem(
@@ -210,65 +204,56 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest.Controllers.Types
                 if(request.Id != id)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "ID uyuşmazlığı");
+                        title: "Id uyuşmazlığı!");
 
                 await _repository.UpdateAsync(request);
 
                 return NoContent();
-
             }
             catch (Exception ex) when (ex is PAContextUpdateException)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message,
-                    instance: HttpContext.Request.Path);
+                    title: "Server Error!",
+                    detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                   statusCode: StatusCodes.Status500InternalServerError,
-                   title: "Unhandled Server Error",
-                   detail: ex.Message,
-                   instance: HttpContext.Request.Path);
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Unhandled Server Error!",
+                    detail: ex.Message);
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
             {
-
                 if (id == Guid.Empty)
                     return Problem(
                         statusCode: StatusCodes.Status400BadRequest,
-                        title: "Geçersiz istek");
+                        title: "Geçersiz istek!");
 
                 await _repository.DeleteAsync(id);
 
                 return NoContent();
-
             }
             catch (Exception ex) when (ex is PAContextRemoveException)
             {
                 return Problem(
                     statusCode: StatusCodes.Status500InternalServerError,
-                    title: "Server Error",
-                    detail: ex.Message,
-                    instance: HttpContext.Request.Path);
+                    title: "Server Error!",
+                    detail: ex.Message);
             }
             catch (Exception ex)
             {
                 return Problem(
-                   statusCode: StatusCodes.Status500InternalServerError,
-                   title: "Unhandled Server Error",
-                   detail: ex.Message,
-                   instance: HttpContext.Request.Path);
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    title: "Unhandled Server Error!",
+                    detail: ex.Message);
             }
         }
-
-
     }
 }

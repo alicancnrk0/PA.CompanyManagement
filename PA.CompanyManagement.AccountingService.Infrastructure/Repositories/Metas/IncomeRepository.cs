@@ -5,6 +5,7 @@ using PA.CompanyManagement.AccountingService.Application.DTOs.Responses.Metas;
 using PA.CompanyManagement.AccountingService.Application.DTOs.Responses.Types;
 using PA.CompanyManagement.AccountingService.Application.Repositories.Metas;
 using PA.CompanyManagement.AccountingService.Domain.Entities.Metas;
+using PA.CompanyManagement.AccountingService.Domain.Entities.Types;
 using PA.CompanyManagement.AccountingService.Infrastructure.Contexts;
 using PA.CompanyManagement.Core.Exceptions;
 using System;
@@ -92,7 +93,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Completed = x.Completed,
                         IncomeDate = x.IncomeDate,
                         Title = x.Title,
-                        TypeName = _context.IncomeTypes.Where(y => y.Id == x.TypeId).Select(y => y.Name).FirstOrDefault()
+                        TypeName = _context.IncomeTypes.Where(y=>y.Id == x.TypeId).Select(y=>y.Name).FirstOrDefault()
                     })
                     .ToListAsync();
             }
@@ -143,8 +144,8 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Description = x.Description,
                         IncomeDate = x.IncomeDate,
                         Title = x.Title,
-                        TaxRate = _context.IncomeTypes.Where(y=> y.Id == x.TypeId).Select(y=> y.TaxRate).FirstOrDefault(),
-                        TypeName = _context.IncomeTypes.Where(y => y.Id == x.TypeId).Select(y => y.Name).FirstOrDefault(),
+                        TaxRate = _context.IncomeTypes.Where(y=>y.Id == x.TypeId).Select(y=>y.TaxRate).FirstOrDefault(),
+                        TypeName = _context.IncomeTypes.Where(y => y.Id == x.TypeId).Select(y => y.Name).FirstOrDefault()
                     })
                     .FirstOrDefaultAsync();
             }

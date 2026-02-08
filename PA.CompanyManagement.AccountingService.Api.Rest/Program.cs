@@ -17,7 +17,6 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
 
             builder.Services.AddAccountingContext(builder.Configuration);
 
@@ -28,12 +27,6 @@ namespace PA.CompanyManagement.AccountingService.Api.Rest
             builder.Services.AddScoped<IIncomeRepository, IncomeRepository>();
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
 
             app.UseHttpsRedirection();
 

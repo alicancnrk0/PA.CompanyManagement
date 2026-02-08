@@ -12,7 +12,7 @@ using PA.CompanyManagement.AccountingService.Infrastructure.Contexts;
 namespace PA.CompanyManagement.AccountingService.Infrastructure.Migrations
 {
     [DbContext(typeof(AccountingDBContext))]
-    [Migration("20260131133824_InitialCreate")]
+    [Migration("20260117135619_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

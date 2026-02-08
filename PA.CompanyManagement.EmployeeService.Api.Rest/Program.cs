@@ -1,4 +1,7 @@
 
+using PA.CompanyManagement.Core.Extensions;
+using PA.CompanyManagement.EmployeeService.Infrastructure;
+
 namespace PA.CompanyManagement.EmployeeService.Api.Rest
 {
     public class Program
@@ -11,15 +14,19 @@ namespace PA.CompanyManagement.EmployeeService.Api.Rest
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+        
+
+            builder.Services.AddEmployeeContext(builder.Configuration);
+
+            builder.Services.AddPASwagger(options =>
+            {
+                options.Title = "Employee API";
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
+            var swopt = new PASwaggerOptions();
+            app.UsePASwagger(swopt);
 
             app.UseHttpsRedirection();
 

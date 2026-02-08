@@ -8,7 +8,6 @@ using System.Text;
 using static PA.CompanyManagement.Core.Extensions.SaveSchangesExtensions;
 using static PA.CompanyManagement.Core.Extensions.ContextConfigurationsExtensions;
 
-
 namespace PA.CompanyManagement.EmployeeService.Infrastructure.Contexts
 {
     public class EmployeeDbContext : DbContext
@@ -40,8 +39,7 @@ namespace PA.CompanyManagement.EmployeeService.Infrastructure.Contexts
             _currentUser = currentUser;
         }
 
-        public DbSet<Employee> Emploees { get; set; }
-
+        public DbSet<Employee> Employees { get; set; }
 
         public override int SaveChanges()
         {
@@ -70,12 +68,11 @@ namespace PA.CompanyManagement.EmployeeService.Infrastructure.Contexts
 
 #if DEBUG
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=127.0.0.1;User Id=sa;Password=11;Encrypt=False;Database=EmployeeDb;");
+                optionsBuilder.UseSqlServer("Server=127.0.0.1;User Id=TheRoslyn;Password=1q2w3e4r5.T!;Encrypt=False;Database=EmployeeDb;");
 #endif
 
             base.OnConfiguring(optionsBuilder);
         }
-
 
     }
 }

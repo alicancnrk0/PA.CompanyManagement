@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using PA.CompanyManagement.AccountingService.Domain.Entities.Types;
 using PA.CompanyManagement.AccountingService.Application.DTOs.Responses.Types;
+using Microsoft.IdentityModel.Abstractions;
 
 namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Metas
 {
@@ -85,6 +86,14 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                 try
                 {
                     _context.Expenses.Remove(_context.Expenses.Find(id));
+                    //var model = await _context.Expenses.FindAsync(id);
+                    //if (model is null)
+                    //    throw new PAContextRemoveException();
+
+
+                    //model.IsDeleted = true;
+                    //model.DeletedAt = DateTime.UtcNow;
+                    //_context.Expenses.Update(model);
                 }
                 catch (Exception ex)
                 {
@@ -125,8 +134,6 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         Id = x.Id,
                         Title = x.Title,
                         TypeName = x.TypeId.ToString()
-                        //TypeName = _context.ExpenseTypes.Find(x.TypeId).Name ?? string.Empty
-                        //TypeName = GetTypeName(x.TypeId)
                     })
                     .ToListAsync();
 
@@ -140,17 +147,10 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
 
         private List<MinimalExpenseResponse> GetTypeName(List<MinimalExpenseResponse> model)
         {
-            //if (id == Guid.Empty)
-            //    return string.Empty;
-            //var item = _context.ExpenseTypes.Find(id);
-            //if (item != null)
-            //    return item.Name ?? string.Empty;
-            //return string.Empty;
 
-            foreach(var item in model)
+            foreach (var item in model) 
             {
                 item.TypeName = _context.ExpenseTypes.Find(Guid.Parse(item.TypeName))?.Name ?? "";
-                
             }
             return model;
         }
@@ -198,6 +198,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Repositories.Met
                         TypeName = x.TypeId.ToString()
                     })
                     .FirstOrDefaultAsync();
+
                 var type = _context.ExpenseTypes.Find(Guid.Parse(response.TypeName));
                 response.TypeName = type?.Name ?? "";
                 response.TaxRate = type?.TaxRate ?? null;

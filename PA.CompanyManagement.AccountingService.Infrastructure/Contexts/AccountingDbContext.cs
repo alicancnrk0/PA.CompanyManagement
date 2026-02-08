@@ -52,7 +52,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Contexts
             else
                 this.OnBeforeSaving();
 
-                return base.SaveChanges();
+            return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -72,7 +72,7 @@ namespace PA.CompanyManagement.AccountingService.Infrastructure.Contexts
 
 #if DEBUG
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer("Server=127.0.0.1;User Id=sa;Password=11;Encrypt=False;Database=AccountingDb;");
+                optionsBuilder.UseSqlServer("Server=127.0.0.1;User Id=TheRoslyn;Password=1q2w3e4r5.T!;Encrypt=False;Database=AccountingDb;");
 #endif
 
             base.OnConfiguring(optionsBuilder);
