@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <ProjectReference Include="..\PA.CompanyManagement.Core\PA.CompanyManagement.Core.csproj" />
   </ItemGroup>
 
 </Project>

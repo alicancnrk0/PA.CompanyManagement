@@ -1,4 +1,7 @@
 
+using PA.CompanyManagement.Core.Extensions;
+using PA.CompanyManagement.NotificationService.Infrastructure;
+
 namespace PA.CompanyManagement.NotificationService.Api.Rest
 {
     public class Program
@@ -10,16 +13,17 @@ namespace PA.CompanyManagement.NotificationService.Api.Rest
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+
+            builder.Services.AddNotificationContext(builder.Configuration);
+            
+            builder.Services.AddPASwagger(options =>
+            {
+                options.Title = "Notification Service";
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
+            app.UsePASwagger(new PASwaggerOptions());
 
             app.UseHttpsRedirection();
 
