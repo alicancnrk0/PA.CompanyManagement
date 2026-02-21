@@ -1,3 +1,6 @@
+using PA.CompanyManagement.WebUI.Clients.Employee;
+using System.Net.Http.Headers;
+
 namespace PA.CompanyManagement.WebUI
 {
     public class Program
@@ -8,6 +11,13 @@ namespace PA.CompanyManagement.WebUI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddHttpClient<IEmployeeApiClient, EmployeeApiClient>(s=>
+            {
+                s.BaseAddress = new Uri("https://localhost:7255/api/emp");
+
+                s.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
 
             var app = builder.Build();
 

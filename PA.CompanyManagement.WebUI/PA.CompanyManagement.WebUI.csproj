@@ -6,4 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PA.CompanyManagement.AccountingService.Application\PA.CompanyManagement.AccountingService.Application.csproj" />
+    <ProjectReference Include="..\PA.CompanyManagement.EmployeeService.Application\PA.CompanyManagement.EmployeeService.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Clients\Accounting\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
 </Project>
